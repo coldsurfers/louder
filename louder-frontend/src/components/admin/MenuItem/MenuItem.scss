@@ -1,0 +1,27 @@
+
+@import 'utils';
+
+.MenuItem {
+    flex: 0.33;
+    background: $oc-blue-4;
+    border-radius: 3px;
+    margin: 1rem;
+    @include media("<=medium") {
+        width: 90%;
+        // height: 100px;
+    }
+    .Contents {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        .title {
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: white;
+            padding: 4rem;
+            
+        }
+    }
+}
+

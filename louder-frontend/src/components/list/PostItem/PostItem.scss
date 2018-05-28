@@ -1,0 +1,61 @@
+@import "utils";
+
+.PostItem {
+    background: white;
+
+    @include material-shadow(4, 0.5);
+
+    transition: all ease 0.5s;
+
+    &:hover {
+        @include material-shadow(5, 0.5);
+
+        background: $oc-gray-1;
+    }
+
+    &:active {
+        background: $oc-gray-2;
+    }
+
+    .contents {
+        display: flex;
+
+        .left {
+            display: flex;
+            align-items: center;
+
+            a {
+                display: flex;
+                align-items: center;
+
+                img {
+                    width: 240px;
+                    height: 240px;
+                }
+            }
+        }
+
+        .right {
+            margin-left: 1rem;
+
+            .title {
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+
+            .artist {
+                font-size: 1.25rem;
+                font-weight: 500;
+            }
+
+            .date {
+                font-size: 1.1rem;
+                font-weight: 400;
+            }
+        }
+    }
+}
+
+.PostItem + .PostItem {
+    margin-top: 1rem;
+}

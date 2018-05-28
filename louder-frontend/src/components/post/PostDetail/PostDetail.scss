@@ -1,0 +1,127 @@
+@import "utils";
+
+.PostDetail {
+    width: 1024px;
+    margin: 0 auto;
+
+    @include media("<=medium") {
+        width: 90%;
+    }
+
+
+    .contents {
+        padding: 1rem;
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .artist {
+            text-align: right;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .cover-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+
+            img {
+                width: 300px;
+                height: 300px;
+                cursor: pointer;
+                user-select: none;
+            }
+        }
+
+        .play-bar {
+            margin-top: 1rem;
+            background: $oc-gray-5;
+            display: flex;
+            cursor: pointer;
+            
+
+            
+
+            .played {
+                // width: 70%;
+                background: $oc-gray-7;
+                height: 1rem;
+                cursor: pointer;
+                transition: all ease-out 0.1s;
+                &:hover {
+                    transform: scale(1.05);
+                }
+            }
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            font-size: 5rem;
+            cursor: pointer;
+            .prev {
+                transition: all ease 0.1s;
+                &:hover {
+                    transform: scale(1.2);
+                }
+                &:active {
+                    transform: scale(1.0);
+                }
+            }
+            .play {
+                transition: all ease 0.1s;
+                &:hover {
+                    transform: scale(1.2);
+                }
+                &:active {
+                    transform: scale(1.0);
+                }
+            }
+            .next {
+                transition: all ease 0.1s;
+                &:hover {
+                    transform: scale(1.2);
+                }
+                &:active {
+                    transform: scale(1.0);
+                }
+            }
+        }
+
+        .song-list {
+            width: 500px;
+            margin: 0 auto;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            @include media("<=medium") {
+                width: 90%;
+            }
+            .song {
+                font-size: 1.25rem;
+                font-weight: 600;
+                cursor: pointer;
+                user-select: none;
+                padding: 1rem;
+                transition: all ease 0.1s;
+                &:hover {
+                    background: $oc-gray-3;
+
+                }
+
+                &:active {
+                    background: $oc-gray-3;
+                    transform: scale(1.1);
+                }
+            }
+
+            .song + .song {
+                border-top: 1px solid $oc-gray-2;
+            }
+        }
+    }
+}

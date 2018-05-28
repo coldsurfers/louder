@@ -1,0 +1,51 @@
+
+@import 'utils';
+
+.form {
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background: $oc-gray-3;
+    @include media("<=medium") {
+        width: 90%;
+    }
+    .contents {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        .Line {
+            display: flex;
+            flex-direction: column;
+            .label {
+                font-size: 1.5rem;
+                font-weight: 600;
+            }
+            .input-wrapper {
+                display: flex;
+
+                .input {
+                    flex: 1;
+                    height: 2rem;
+                    font-size: 1.5rem;
+                    outline: none;
+                    border: 1px solid $oc-gray-5;
+                }
+            }
+
+           
+
+            .label + .input-wrapper {
+                margin-top: 1rem;
+            }
+        }
+
+        .button-wrapper {
+            margin-top: 1rem;
+        }
+
+        .Line + .Line {
+            margin-top: 2rem;
+        }
+    }
+}

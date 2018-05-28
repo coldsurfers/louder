@@ -1,0 +1,51 @@
+
+@import 'utils';
+
+.UserItem {
+    .contents {
+        display: flex;
+        padding: 1rem;
+        @include media("<=medium") {
+            flex-direction: column;
+        }
+        .left {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            .Line {
+                display: flex;
+                .label {
+                    font-size: 1.25rem;
+                    font-weight: 800;
+                }
+                .text {
+                    font-size: 1.2rem;
+                    font-weight: 700;
+                    margin-left: 1rem;
+                    @include media("<=small") {
+                        font-size: 0.9rem;
+                    }
+                }
+                
+            }
+        }
+        .right {
+            .button-wrapper {
+                margin-left: auto;
+                margin-right: 1rem;
+                display: flex;
+
+                @include media("<=medium") {
+                    margin-right: 0;
+                }
+                
+                
+            }
+        }
+
+    }
+}
+
+.UserItem + .UserItem {
+    border-top: 1px solid $oc-gray-3;
+}

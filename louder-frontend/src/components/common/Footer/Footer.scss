@@ -1,0 +1,16 @@
+
+@import 'utils';
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $oc-gray-5;
+    height: 10rem;
+    .logo {
+        color: white;
+        font-size: 3rem;
+        font-weight: 800;
+        user-select: none;
+    }
+}

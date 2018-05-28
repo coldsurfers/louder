@@ -1,0 +1,20 @@
+
+@import 'utils';
+
+.MenuItems {
+    width: 1024px;
+    margin: 0 auto;
+    padding: 3rem;
+    @include media("<=medium") {
+        width: 90%;
+        padding: 0rem;
+    }
+    .Contents {
+        display: flex;
+
+        @include media("<=medium") {
+            flex-direction: column;
+        }
+
+    }
+}

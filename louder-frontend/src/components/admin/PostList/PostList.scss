@@ -1,0 +1,19 @@
+
+@import 'utils';
+
+.wrapper {
+    width: 1024px;
+    margin: 0 auto;
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background: $oc-gray-1;
+    
+    @include media("<=medium") {
+        width: 90%;
+    }
+    .list {
+        
+    }
+
+}

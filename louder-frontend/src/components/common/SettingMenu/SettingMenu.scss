@@ -1,0 +1,35 @@
+
+@import 'utils';
+
+.wrapper {
+    width: 150px;
+    background: white;
+    position: absolute;
+    top: 220px;
+    right: 150px;
+    @include media("<=medium") {
+        right: 40px;
+    }
+    .contents {
+        display: flex;
+        flex-direction: column;
+        .line {
+            display: flex;
+            &:hover {
+                background: $oc-gray-3;
+            }
+            &:active {
+                 background: white;
+            }
+            .text {
+                padding: 0.5rem;
+                cursor: pointer;
+                user-select: none;
+            }
+        }
+
+        .line + .line {
+            border-top: 1px solid $oc-gray-5;
+        }
+    }      
+}

@@ -1,0 +1,48 @@
+
+@import 'utils';
+
+.PostItem {
+    width: 100%;
+    
+    .contents {
+        display: flex;
+
+        .ImageWrapper {
+            img {
+                width: 230px;
+                height: 230px;
+            }
+        }
+
+        .RightWrapper {
+            .title {
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+            .artist-name {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-left: 1rem;
+            }
+
+            .created-at {
+                font-size: 1.15rem;
+                font-weight: 600;
+                // margin-left
+            }
+
+            .title + .artist-name + .created-at {
+                margin-top: 1.25rem;
+            }
+        }
+
+        .ImageWrapper + .RightWrapper {
+            margin-left: 1.5rem;
+        }
+        
+    }
+}
+
+.PostItem + .PostItem {
+    border-top: 1px solid $oc-gray-3;
+}

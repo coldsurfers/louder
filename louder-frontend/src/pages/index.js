@@ -1,0 +1,14 @@
+export { default as AdminPage } from './AdminPage';
+export { default as EditorPage } from './EditorPage';
+export { default as PostsPage } from './PostsPage';
+export { default as AdminPostDetailPage } from './AdminPostDetailPage';
+export { default as ListPage } from './ListPage';
+export { default as LoginPage } from './LoginPage';
+export { default as RegisterPage } from './RegisterPage';
+export { default as InfoPage } from './InfoPage';
+export { default as PostDetailPage } from './PostDetailPage';
+export { default as UsersPage } from './UsersPage';
+export { default as StaffRegisterPage } from './StaffRegisterPage';
+export { default as UserListPage } from './UserListPage';
+export { default as StaffManagePage } from './StaffManagePage';
+export { default as NotFoundPage } from './NotFoundPage';

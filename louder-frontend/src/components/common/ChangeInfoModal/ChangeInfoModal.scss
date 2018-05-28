@@ -1,0 +1,40 @@
+
+@import 'utils';
+
+.modal {
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    @include material-shadow(3, 0.5);
+    background: white;
+    .contents {
+        padding: 3rem;
+        display: flex;
+        flex-direction: column;
+
+        .desc {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            display: flex;
+            .input {
+                flex: 1;
+                height: 2rem;
+                font-size: 1.5rem;
+                outline: none;
+                border: 1px solid $oc-gray-5;
+            }
+        }
+        .button-wrapper{
+            margin: 1rem;
+        }
+
+        .desc + .input-wrapper {
+            margin-top: 1rem;
+        }
+    }
+}

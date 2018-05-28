@@ -1,0 +1,13 @@
+
+@import 'utils';
+
+.wrapper {
+    display: flex;
+    width: 1024px;
+    margin: 0 auto;
+    margin-top: 3rem;
+    @include media("<=medium") {
+        flex-direction: column;
+        width: 90%;
+    }
+}

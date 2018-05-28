@@ -1,0 +1,46 @@
+
+@import 'utils';
+
+.Pagination {
+    width: 1024px;
+    margin: 0 auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    @include media("<=medium") {
+        width: 90%;
+    }
+    display: flex;
+    align-items: center;
+    .prev {
+        .button {
+            background: $oc-violet-5;
+            padding-top: 0.25rem;
+            padding-right: 0.8rem;
+            padding-bottom: 0.25rem;
+            padding-left: 0.8rem;
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+    }
+
+    .page {
+        flex: 1;
+        text-align: center;
+    }
+
+    .next {
+        margin-left: auto;
+
+        .button {
+            background: $oc-violet-5;
+            padding-top: 0.25rem;
+            padding-right: 0.8rem;
+            padding-bottom: 0.25rem;
+            padding-left: 0.8rem;
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+    }
+}

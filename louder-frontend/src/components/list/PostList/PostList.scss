@@ -1,0 +1,14 @@
+
+@import 'utils';
+
+.post-list {
+    width: 1024px;
+    margin: 0 auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    @include media("<=medium") {
+        width: 90%;
+    }
+
+    
+}
