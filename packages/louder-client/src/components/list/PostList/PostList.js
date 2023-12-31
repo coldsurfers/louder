@@ -6,7 +6,7 @@ import PostItem from 'components/list/PostItem/PostItem';
 const cx = classNames.bind(styles);
 
 const PostList = ({posts}) => {
-  const postList = posts.map(
+  const postList = Array.isArray(posts) ? posts.map(
     (post, i) => {
       return <PostItem
                 key={post.get('id')}
@@ -18,9 +18,9 @@ const PostList = ({posts}) => {
                 album_track_file_names={post.get('album_track_file_names')}
                 created_at={post.get('created_at')}/>
     }
-  )
+  ) : []
   return (
-    <div className={cx('post-list')}> 
+    <div className={cx('post-list')}>
       {postList}
     </div>
   );

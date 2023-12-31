@@ -12,19 +12,19 @@ const Pagination = ({count, next, previous, page, what}) => {
   let nextUrl = null;
   let splittedPrev = null;
   let prevUrl = null;
-  if(next !== null) {
+  if(!!next) {
     splittedNext = next.split("/?");
     nextUrl = splittedNext[splittedNext.length - 1];
   }
-  if(previous !== null) {
+  if(!!previous) {
     splittedPrev = previous.split("/?");
     if(splittedPrev.length === 1) {
       prevUrl = "page=1";
-      
+
     } else {
       prevUrl = splittedPrev[splittedPrev.length - 1];
     }
-    
+
   }
 
   let path = "";
@@ -37,7 +37,7 @@ const Pagination = ({count, next, previous, page, what}) => {
   if(what === "homeList") {
     path="/";
   }
-  
+
   return (
     <div className={cx('Pagination')}>
       <div className={cx('prev')}>
