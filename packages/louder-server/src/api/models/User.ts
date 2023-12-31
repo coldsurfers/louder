@@ -15,7 +15,9 @@ export default class User {
 
   public email!: string;
 
-  public password!: string;
+  public password?: string;
+
+  public passwordSalt?: string;
 
   public created_at?: Date;
 
@@ -23,34 +25,68 @@ export default class User {
     id?: string;
     email: string;
     username: string;
-    password: string;
+    password?: string;
+    passwordSalt?: string;
     created_at?: Date;
   }) {
     this.id = params.id;
     this.email = params.email;
     this.username = params.username;
     this.password = params.password;
+    this.passwordSalt = params.passwordSalt;
     this.created_at = params.created_at;
   }
 
-  public static async findByEmail(email: string) {
-    const user = await prisma.user.findUnique({
+  public static async find({
+    email,
+    username,
+  }: {
+    email: string;
+    username: string;
+  }) {
+    // eslint-disable-next-line no-underscore-dangle
+    const _user = await prisma.user.findUnique({
       where: {
         email,
+        username,
       },
+    });
+
+    if (!_user) return null;
+
+    const user = new User({
+      email: _user.email,
+      id: _user.id,
+      created_at: _user.created_at,
+      username: _user.username,
     });
 
     return user;
   }
 
   public async create() {
-    const user = await prisma.user.create({
+    if (!this.password || !this.passwordSalt) {
+      throw Error("password, password salt");
+    }
+    // eslint-disable-next-line no-underscore-dangle
+    const _user = await prisma.user.create({
       data: {
         email: this.email,
         username: this.username,
         password: this.password,
+        passwordSalt: this.passwordSalt,
       },
     });
+
+    if (!_user) return null;
+
+    const user = new User({
+      created_at: _user.created_at,
+      email: _user.email,
+      id: _user.id,
+      username: _user.username,
+    });
+
     return user;
   }
 
