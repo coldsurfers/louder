@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import nconf from "nconf";
 import path from "path";
+import AutoLoad from "@fastify/autoload";
 
 const fastify = Fastify({
   ignoreTrailingSlash: true,
@@ -25,6 +26,12 @@ async function loadSettings() {
 async function main() {
   try {
     await loadSettings();
+    await fastify.register(AutoLoad, {
+      dir: path.resolve(__dirname, "./api/routes"),
+      options: {
+        prefix: "/v1",
+      },
+    });
     await fastify.listen({ port: nconf.get("port"), host: "0.0.0.0" });
     fastify.log.info("server started", process.env.NODE_ENV);
   } catch (e) {
