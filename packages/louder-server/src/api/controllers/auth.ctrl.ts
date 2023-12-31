@@ -2,6 +2,7 @@ import { FastifyError, RouteHandler } from "fastify";
 import User from "../models/User";
 import AuthToken from "../models/AuthToken";
 import encryptPassword from "../../lib/encryptPassword";
+import { JWTDecoded } from "../../types/jwt";
 
 export const postRegisterCtrl: RouteHandler<{
   Body: {
@@ -133,10 +134,19 @@ export const postLoginCtrl: RouteHandler<{
 
 export const getUserCtrl: RouteHandler<{}> = async (req, rep) => {
   try {
-    // await req.jwtVerify();
-    // const decoded = (await req.jwtDecode()) as JWTDecoded
-    // todo find user by auth token
-    return rep.status(501).send();
+    const decoded = (await req.jwtDecode()) as JWTDecoded;
+    const user = await User.find({
+      email: decoded.email,
+      username: decoded.username,
+    });
+
+    if (!user) {
+      return rep.status(403).send({});
+    }
+
+    return rep.status(200).send({
+      ...user.serialize(),
+    });
   } catch (e) {
     const error = e as FastifyError;
     return rep.status(error.statusCode ?? 500).send(error);
