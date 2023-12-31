@@ -1,12 +1,20 @@
 import { FastifyError, RouteHandler } from "fastify";
 // import { JWTDecoded } from '../../types/jwt'
 
-export const postRegisterCtrl: RouteHandler<{}> = async (req, rep) => {
+export const postRegisterCtrl: RouteHandler<{
+  Body: {
+    username: string;
+    email: string;
+    password: string;
+  };
+}> = async (req, rep) => {
+  const { username, email, password } = req.body;
   try {
+    console.log(username, email, password);
     // await req.jwtVerify();
     // const decoded = (await req.jwtDecode()) as JWTDecoded
     // todo find user by auth token
-    return rep.status(501).send();
+    return rep.status(200).send();
   } catch (e) {
     const error = e as FastifyError;
     return rep.status(error.statusCode ?? 500).send(error);

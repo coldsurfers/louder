@@ -24,12 +24,14 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "pm2": "^5.3.0",
     "prettier": "^2.8.1",
+    "prisma": "^5.7.1",
     "typescript": "^5.3.3"
   },
   "dependencies": {
     "@fastify/autoload": "^5.8.0",
     "@fastify/cors": "^8.5.0",
     "@fastify/jwt": "^7.2.4",
+    "@prisma/client": "^5.7.1",
     "fastify": "^4.25.2",
     "nconf": "^0.12.1"
   }
