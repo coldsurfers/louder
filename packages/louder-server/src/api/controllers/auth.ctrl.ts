@@ -71,12 +71,60 @@ export const postRegisterCtrl: RouteHandler<{
   }
 };
 
-export const postLoginCtrl: RouteHandler<{}> = async (req, rep) => {
+export const postLoginCtrl: RouteHandler<{
+  Body: {
+    username: string;
+    password: string;
+  };
+}> = async (req, rep) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    return rep.status(400).send({});
+  }
   try {
-    // await req.jwtVerify();
-    // const decoded = (await req.jwtDecode()) as JWTDecoded
-    // todo find user by auth token
-    return rep.status(501).send();
+    const user = await User.find({
+      username,
+    });
+    if (!user || !user.id) {
+      return rep.status(403).send({});
+    }
+    if (
+      user.password !==
+      encryptPassword({ plain: password, originalSalt: user.passwordSalt })
+        .encrypted
+    ) {
+      return rep.status(403).send({});
+    }
+    const authToken = new AuthToken({
+      auth_token: await rep.jwtSign(
+        {
+          email: user.email,
+          username: user.username,
+          id: user.id,
+        },
+        {
+          expiresIn: "7d",
+        }
+      ),
+      refresh_token: await rep.jwtSign(
+        {
+          email: user.email,
+          username: user.username,
+          id: user.id,
+        },
+        {
+          expiresIn: "30d",
+        }
+      ),
+      user_id: user.id,
+    });
+    const { refresh_token, auth_token } = await authToken.create();
+
+    return rep.status(200).send({
+      user: user.serialize(),
+      token: auth_token,
+      refresh_token,
+    });
   } catch (e) {
     const error = e as FastifyError;
     return rep.status(error.statusCode ?? 500).send(error);

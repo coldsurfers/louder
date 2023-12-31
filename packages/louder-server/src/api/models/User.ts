@@ -41,7 +41,7 @@ export default class User {
     email,
     username,
   }: {
-    email: string;
+    email?: string;
     username: string;
   }) {
     // eslint-disable-next-line no-underscore-dangle
@@ -59,6 +59,8 @@ export default class User {
       id: _user.id,
       created_at: _user.created_at,
       username: _user.username,
+      password: _user.password,
+      passwordSalt: _user.passwordSalt,
     });
 
     return user;
