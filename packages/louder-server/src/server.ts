@@ -2,6 +2,7 @@ import Fastify from "fastify";
 import nconf from "nconf";
 import path from "path";
 import AutoLoad from "@fastify/autoload";
+import cors from "@fastify/cors";
 
 const fastify = Fastify({
   ignoreTrailingSlash: true,
@@ -26,6 +27,14 @@ async function loadSettings() {
 async function main() {
   try {
     await loadSettings();
+    await fastify.register(cors, {
+      origin:
+        process.env.NODE_ENV === "development"
+          ? ["http://localhost:3000"]
+          : ["https://louder.coldsurf.io"],
+      preflight: true,
+      methods: ["GET", "POST", "OPTIONS", "PATCH", "PUT", "DELETE"],
+    });
     await fastify.register(AutoLoad, {
       dir: path.resolve(__dirname, "./api/routes"),
       options: {
