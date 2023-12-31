@@ -11,6 +11,7 @@
     "deploy": "yarn pm2 start ./src/config/ecosystem.config.js"
   },
   "devDependencies": {
+    "@types/nconf": "^0.10.6",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "eslint": "^8.56.0",
@@ -26,6 +27,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "fastify": "^4.25.2"
+    "fastify": "^4.25.2",
+    "nconf": "^0.12.1"
   }
 }
