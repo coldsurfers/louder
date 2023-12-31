@@ -3,6 +3,7 @@ import nconf from "nconf";
 import path from "path";
 import AutoLoad from "@fastify/autoload";
 import cors from "@fastify/cors";
+import jwt from "@fastify/jwt";
 
 const fastify = Fastify({
   ignoreTrailingSlash: true,
@@ -40,6 +41,9 @@ async function main() {
       options: {
         prefix: "/v1",
       },
+    });
+    await fastify.register(jwt, {
+      secret: nconf.get("secrets").jwt,
     });
     await fastify.listen({ port: nconf.get("port"), host: "0.0.0.0" });
     fastify.log.info("server started", process.env.NODE_ENV);
