@@ -82,11 +82,13 @@ export default handleActions({
     ...pender({
         type: CHANGE_EMAIL,
         onSuccess: (state, action) => {
-            const { user } = action.payload.data;
+            const { user, token } = action.payload.data;
             const { id, username, email } = user;
+            storage.set('token', token);
             return state.set('id', id)
                         .set('username', username)
-                        .set('email', email);
+                        .set('email', email)
+                        .set('token', token);
         }
     }),
     ...pender({

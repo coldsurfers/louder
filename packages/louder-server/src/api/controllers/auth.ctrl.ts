@@ -170,10 +170,66 @@ export const postLogoutCtrl: RouteHandler<{}> = async (req, rep) => {
   }
 };
 
-export const patchUserProfileCtrl: RouteHandler<{}> = async (req, rep) => {
+export const patchUserProfileCtrl: RouteHandler<{
+  Body:
+    | {
+        category: "password";
+        password: string;
+        passwordCheck: string;
+      }
+    | {
+        category: "email";
+        email: string;
+      };
+}> = async (req, rep) => {
+  const { category } = req.body;
   try {
+    const decoded = (await req.jwtDecode()) as JWTDecoded;
+
+    switch (category) {
+      case "email":
+        // eslint-disable-next-line no-case-declarations
+        const updated = await User.changeEmail({
+          userId: decoded.id,
+          email: req.body.email,
+        });
+        if (!updated.id) return rep.status(403).send();
+        // eslint-disable-next-line no-case-declarations
+        const authToken = new AuthToken({
+          auth_token: await rep.jwtSign(
+            {
+              email: updated.email,
+              username: updated.username,
+              id: updated.id,
+            },
+            {
+              expiresIn: "7d",
+            }
+          ),
+          refresh_token: await rep.jwtSign(
+            {
+              email: updated.email,
+              username: updated.username,
+              id: updated.id,
+            },
+            {
+              expiresIn: "30d",
+            }
+          ),
+          user_id: updated.id,
+        });
+        return rep.status(200).send({
+          user: updated.serialize(),
+          token: authToken.auth_token,
+          refresh_token: authToken.refresh_token,
+        });
+      case "password":
+        return rep.status(200).send();
+      default:
+        break;
+    }
     // await req.jwtVerify();
-    // const decoded = (await req.jwtDecode()) as JWTDecoded
+
     // todo find user by auth token
     return rep.status(501).send();
   } catch (e) {

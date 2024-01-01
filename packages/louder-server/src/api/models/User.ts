@@ -92,6 +92,32 @@ export default class User {
     return user;
   }
 
+  public static async changeEmail({
+    userId,
+    email,
+  }: {
+    userId: string;
+    email: string;
+  }) {
+    const updated = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        email,
+      },
+    });
+
+    const user = new User({
+      id: updated.id,
+      email: updated.email,
+      username: updated.username,
+      created_at: updated.created_at,
+    });
+
+    return user;
+  }
+
   public serialize(): UserSerialized {
     return {
       id: this.id ?? "",
