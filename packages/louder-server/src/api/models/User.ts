@@ -6,6 +6,7 @@ export type UserSerialized = {
   email: string;
   username: string;
   created_at: string;
+  is_staff: boolean;
 };
 
 export default class User {
@@ -21,6 +22,8 @@ export default class User {
 
   public created_at?: Date;
 
+  public is_staff?: boolean;
+
   constructor(params: {
     id?: string;
     email: string;
@@ -28,6 +31,7 @@ export default class User {
     password?: string;
     passwordSalt?: string;
     created_at?: Date;
+    is_staff?: boolean;
   }) {
     this.id = params.id;
     this.email = params.email;
@@ -35,6 +39,7 @@ export default class User {
     this.password = params.password;
     this.passwordSalt = params.passwordSalt;
     this.created_at = params.created_at;
+    this.is_staff = params.is_staff;
   }
 
   public static async find({
@@ -61,6 +66,7 @@ export default class User {
       username: _user.username,
       password: _user.password,
       passwordSalt: _user.passwordSalt,
+      is_staff: _user.is_staff,
     });
 
     return user;
@@ -150,6 +156,7 @@ export default class User {
       email: this.email,
       username: this.username,
       created_at: this.created_at?.toISOString() ?? "",
+      is_staff: !!this.is_staff,
     };
   }
 }

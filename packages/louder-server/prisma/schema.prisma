@@ -18,6 +18,7 @@ model User {
   passwordSalt String     @db.VarChar(255)
   created_at   DateTime   @default(now())
   auth_token   AuthToken?
+  is_staff     Boolean    @default(false)
 }
 
 model AuthToken {
