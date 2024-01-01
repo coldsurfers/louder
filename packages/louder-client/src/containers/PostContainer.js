@@ -20,7 +20,7 @@ class PostContainer extends Component {
             config = {
                 headers: {
                     'content-type': 'application/json',
-                    'Authorization': `Token ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             };
         };
@@ -79,7 +79,7 @@ class PostContainer extends Component {
             header = {
                 headers: {
                     'content-type': 'application/json',
-                    'Authorization': `Token ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             };
         };

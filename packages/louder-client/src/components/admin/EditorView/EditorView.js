@@ -6,7 +6,7 @@ import storage from 'lib/storage';
 const cx = classNames.bind(styles);
 
 class EditorView extends Component {
-  
+
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,7 +21,7 @@ class EditorView extends Component {
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
-        'Authorization': `Token ${token}`
+        'Authorization': `Bearer ${token}`
       }
     };
 
@@ -53,7 +53,7 @@ class EditorView extends Component {
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
-        'Authorization': `Token ${token}`
+        'Authorization': `Bearer ${token}`
       }
     };
     onUploadTracks(formData, config);

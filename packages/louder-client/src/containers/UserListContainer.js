@@ -23,7 +23,7 @@ class UserListContainer extends Component {
                 config = {
                     headers: {
                         'content-type': 'application/json',
-                        'Authorization': `Token ${token}`
+                        'Authorization': `Bearer ${token}`
                     }
                 };
             };
@@ -49,7 +49,7 @@ class UserListContainer extends Component {
             config = {
                 headers: {
                     'content-type': 'application/json',
-                    'Authorization': `Token ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             };
         };
@@ -61,7 +61,7 @@ class UserListContainer extends Component {
             if(what === "member") {
                 await AdminActions.getUserList({ page }, config);
             }
-           
+
         } catch (e) {
             console.log(e);
         }
@@ -99,7 +99,7 @@ class UserListContainer extends Component {
             config = {
                 headers: {
                     'content-type': 'application/json',
-                    'Authorization': `Token ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             };
         };
@@ -110,7 +110,7 @@ class UserListContainer extends Component {
             if(what === "member") {
                 await AdminActions.deleteUser({ id }, config);
             }
-            
+
             this.getUserList();
         } catch (e) {
             console.log(e);

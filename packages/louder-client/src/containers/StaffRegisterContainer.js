@@ -25,7 +25,7 @@ class StaffRegisterContainer extends Component {
                 config = {
                     headers: {
                         'content-type': 'application/json',
-                        'Authorization': `Token ${token}`
+                        'Authorization': `Bearer ${token}`
                     }
                 };
             };
@@ -61,7 +61,7 @@ class StaffRegisterContainer extends Component {
             config = {
                 headers: {
                     'content-type': 'application/json',
-                    'Authorization': `Token ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             };
         };

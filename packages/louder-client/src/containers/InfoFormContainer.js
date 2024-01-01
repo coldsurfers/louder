@@ -45,7 +45,7 @@ class InfoFormContainer extends Component {
                 config = {
                     headers: {
                         'content-type': 'application/json',
-                        'Authorization': `Token ${token}`
+                        'Authorization': `Bearer ${token}`
                     }
                 };
             };
@@ -81,7 +81,7 @@ class InfoFormContainer extends Component {
             config = {
                 headers: {
                     'content-type': 'application/json',
-                    'Authorization': `Token ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             };
         };
@@ -95,9 +95,9 @@ class InfoFormContainer extends Component {
 
     render() {
         const { username, email, passwordChanging, inputs } = this.props;
-        const { showModal, 
-                showPasswordChanging, 
-                hidePasswordChanging, 
+        const { showModal,
+                showPasswordChanging,
+                hidePasswordChanging,
                 handleChangeInput,
                 changePassword } = this;
 

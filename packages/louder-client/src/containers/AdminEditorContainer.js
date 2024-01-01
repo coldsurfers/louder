@@ -27,7 +27,7 @@ class AdminEditorContainer extends Component {
             config = {
                 headers: {
                     'content-type': 'application/json',
-                    'Authorization': `Token ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             };
         };
@@ -49,7 +49,7 @@ class AdminEditorContainer extends Component {
                 config = {
                     headers: {
                         'content-type': 'application/json',
-                        'Authorization': `Token ${token}`
+                        'Authorization': `Bearer ${token}`
                     }
                 };
             };
@@ -91,7 +91,7 @@ class AdminEditorContainer extends Component {
             header = {
                 headers: {
                     'content-type': 'application/json',
-                    'Authorization': `Token ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             };
         };

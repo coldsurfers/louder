@@ -18,7 +18,7 @@ class HeaderContainer extends Component {
                 config = {
                     headers: {
                         'content-type': 'application/json',
-                        'Authorization': `Token ${token}`
+                        'Authorization': `Bearer ${token}`
                     }
                 };
             };

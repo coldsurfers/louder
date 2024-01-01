@@ -19,7 +19,7 @@ class PostDetailContainer extends Component {
             config = {
                 headers: {
                     'content-type': 'application/json',
-                    'Authorization': `Token ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             };
         };
@@ -42,7 +42,7 @@ class PostDetailContainer extends Component {
                 config = {
                     headers: {
                         'content-type': 'application/json',
-                        'Authorization': `Token ${token}`
+                        'Authorization': `Bearer ${token}`
                     }
                 };
             };
@@ -93,7 +93,7 @@ class PostDetailContainer extends Component {
     }
 
     componentWillUnmount() {
-       
+
         this.initialize();
     }
 
