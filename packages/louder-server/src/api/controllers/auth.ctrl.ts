@@ -224,13 +224,32 @@ export const patchUserProfileCtrl: RouteHandler<{
           refresh_token: authToken.refresh_token,
         });
       case "password":
-        return rep.status(200).send();
+        if (req.body.password !== req.body.passwordCheck) {
+          return rep.status(400).send();
+        }
+        // eslint-disable-next-line no-case-declarations
+        const user = await User.find({
+          username: decoded.username,
+        });
+        if (!user || !user.id) return rep.status(404).send();
+        // eslint-disable-next-line no-case-declarations
+        const { encrypted, salt } = encryptPassword({
+          plain: req.body.password,
+          originalSalt: user.passwordSalt,
+        });
+        // eslint-disable-next-line no-case-declarations
+        const passwordChangedUser = await User.changePassword({
+          userId: user.id,
+          password: encrypted,
+          passwordSalt: salt,
+        });
+        return rep.status(200).send({
+          user: passwordChangedUser.serialize(),
+        });
       default:
         break;
     }
-    // await req.jwtVerify();
 
-    // todo find user by auth token
     return rep.status(501).send();
   } catch (e) {
     const error = e as FastifyError;

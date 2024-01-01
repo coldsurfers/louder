@@ -118,6 +118,32 @@ export default class User {
     return user;
   }
 
+  public static async changePassword({
+    userId,
+    password,
+    passwordSalt,
+  }: {
+    userId: string;
+    password: string;
+    passwordSalt: string;
+  }) {
+    const updated = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        password,
+        passwordSalt,
+      },
+    });
+
+    const user = new User({
+      ...updated,
+    });
+
+    return user;
+  }
+
   public serialize(): UserSerialized {
     return {
       id: this.id ?? "",
