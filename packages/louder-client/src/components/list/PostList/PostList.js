@@ -6,8 +6,8 @@ import styles from "./PostList.scss";
 const cx = classNames.bind(styles);
 
 const PostList = ({ posts }) => {
-  const postList = Array.isArray(posts)
-    ? posts.map((post, i) => (
+  const postList =
+    posts.map((post, i) => (
         <PostItem
           key={post.get("id")}
           id={post.get("id")}
@@ -19,7 +19,7 @@ const PostList = ({ posts }) => {
           created_at={post.get("created_at")}
         />
       ))
-    : [];
+
   return <div className={cx("post-list")}>{postList}</div>;
 };
 

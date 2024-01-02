@@ -19,25 +19,26 @@ class PostDetail extends Component {
 
   Play = () => {
     const { setStop, setPlaying, playing } = this.props;
+    console.log(playing)
     if (playing) {
-      this.rap.audioEl.pause();
+      this.rap.audioEl.current.pause();
       setStop();
       return;
     }
-    this.rap.audioEl.play();
+    this.rap.audioEl.current.play();
     setPlaying();
   };
 
   handlePlayNext = async () => {
     const { playNext } = this.props;
     await playNext();
-    this.rap.audioEl.play();
+    this.rap.audioEl.current.play();
   };
 
   handlePlayPrev = async () => {
     const { playPrev } = this.props;
     await playPrev();
-    this.rap.audioEl.play();
+    this.rap.audioEl.current.play();
   };
 
   setProgress = (e) => {
@@ -45,16 +46,16 @@ class PostDetail extends Component {
     const width = target.clientWidth;
     const rect = target.getBoundingClientRect();
     const offsetX = e.clientX - rect.left;
-    const { duration } = this.rap.audioEl;
+    const { duration } = this.rap.audioEl.current;
     const currentTime = (duration * offsetX) / width;
     const progress = (currentTime * 100) / duration;
-    this.rap.audioEl.currentTime = currentTime;
+    this.rap.audioEl.current.currentTime = currentTime;
     // console.log(progress);
     // console.log(currentTime);
   };
 
   updateProgress = () => {
-    const { duration, currentTime } = this.rap.audioEl;
+    const { duration, currentTime } = this.rap.audioEl.current;
     const progress = (currentTime * 100) / duration;
     // console.log(parseInt(currentTime, 10));
     this.setState({
@@ -65,7 +66,7 @@ class PostDetail extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.post !== this.props.post) {
-      this.rap.audioEl.addEventListener("timeupdate", (e) => {
+      this.rap.audioEl.current.addEventListener("timeupdate", (e) => {
         this.updateProgress();
       });
     }
@@ -77,12 +78,12 @@ class PostDetail extends Component {
       .getElementById("play-bar")
       .removeEventListener("mousemove", this.setProgress);
     window.removeEventListener("mouseup", this.handleMouseUp);
-    this.rap.audioEl.play();
+    this.rap.audioEl.current.play();
     setPlaying();
   };
 
   handleMouseDown = (e) => {
-    this.rap.audioEl.pause();
+    this.rap.audioEl.current.pause();
     document
       .getElementById("play-bar")
       .addEventListener("mousemove", this.setProgress);
@@ -91,7 +92,7 @@ class PostDetail extends Component {
 
   componentWillUnmount() {
     // const { onUnmount } = this.props;
-    this.rap.audioEl.removeEventListener("timeupdate", (e) => {
+    this.rap.audioEl.current.removeEventListener("timeupdate", (e) => {
       this.updateProgress();
     });
 
@@ -100,18 +101,18 @@ class PostDetail extends Component {
 
   canPlay = () => {
     this.setState({
-      readyState: this.rap.audioEl.readyState,
+      readyState: this.rap.audioEl.current.readyState,
     });
   };
 
   handleSelect = async (e) => {
-    this.rap.audioEl.pause();
-    this.rap.audioEl.currentTime = 0;
+    this.rap.audioEl.current.pause();
+    this.rap.audioEl.current.currentTime = 0;
     const { id } = e.target;
     const { onSelect, setPlaying } = this.props;
     await onSelect({ index: id });
     setPlaying();
-    this.rap.audioEl.play();
+    this.rap.audioEl.current.play();
   };
 
   render() {
@@ -120,8 +121,7 @@ class PostDetail extends Component {
       this;
     if (post.size === 0) return null;
 
-    const splitted_cover_url = post.album_cover.split("/");
-    const url = splitted_cover_url[splitted_cover_url.length - 1];
+    const url = post.album_cover
 
     const songNamesArr = post.song_names;
     const songList = songNamesArr.map((song, i) => (
@@ -137,7 +137,6 @@ class PostDetail extends Component {
       <Fragment>
         <ReactAudioPlayer
           onCanPlay={this.canPlay}
-          // controls
           ref={(element) => {
             this.rap = element;
           }}
@@ -148,7 +147,7 @@ class PostDetail extends Component {
             <div className={cx("title")}>{post.title}</div>
             <div className={cx("artist")}>{post.artist_name}</div>
             <div className={cx("cover-wrapper")}>
-              <img src={`/media/covers/${url}`} alt="detailThumbnail" />
+              <img src={`${url}`} alt="detailThumbnail" />
             </div>
             <div
               id="play-bar"

@@ -164,7 +164,6 @@ export default handleActions(
       type: GET_POST_LIST,
       onSuccess: (state, action) => {
         const { count, next, previous, results } = action.payload.data;
-        console.log(results);
         return state
           .setIn(["posts", "count"], count)
           .setIn(["posts", "next"], next)

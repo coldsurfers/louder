@@ -46,13 +46,13 @@ export default handleActions(
       onSuccess: (state, action) => {
         const { data: post } = action.payload;
         const { album_track_file_names } = post;
-        const trackArr = album_track_file_names.split(",");
+        const trackArr = album_track_file_names
 
         return state
           .set("postDetail", post)
           .set("tracks", trackArr)
           .setIn(["player", "length"], trackArr.length)
-          .setIn(["player", "url"], `/media/tracks/${trackArr[0]}`);
+          .setIn(["player", "url"], `${trackArr[0]}`);
       },
     }),
     [PLAY_NEXT]: (state, action) => {
@@ -60,13 +60,13 @@ export default handleActions(
       const length = state.getIn(["player", "length"]);
       if (current === length - 1) {
         const tracks = state.get("tracks");
-        const url = `/media/tracks/${tracks[0]}`;
+        const url = `${tracks[0]}`;
         return state
           .setIn(["player", "current"], 0)
           .setIn(["player", "url"], url);
       }
       const tracks = state.get("tracks");
-      const url = `/media/tracks/${
+      const url = `${
         tracks[parseInt(state.getIn(["player", "current"]), 10) + 1]
       }`;
       return state
@@ -78,13 +78,13 @@ export default handleActions(
       const length = state.getIn(["player", "length"]);
       if (current === 0) {
         const tracks = state.get("tracks");
-        const url = `/media/tracks/${tracks[tracks.length - 1]}`;
+        const url = `${tracks[tracks.length - 1]}`;
         return state
           .setIn(["player", "current"], length - 1)
           .setIn(["player", "url"], url);
       }
       const tracks = state.get("tracks");
-      const url = `/media/tracks/${
+      const url = `${
         tracks[parseInt(state.getIn(["player", "current"]), 10) - 1]
       }`;
       return state
@@ -96,7 +96,7 @@ export default handleActions(
     [SELECT_SONG]: (state, action) => {
       const { index } = action.payload;
       const tracks = state.get("tracks");
-      const url = `/media/tracks/${tracks[parseInt(index, 10)]}`;
+      const url = `${tracks[parseInt(index, 10)]}`;
       return state
         .setIn(["player", "current"], parseInt(index, 10))
         .setIn(["player", "url"], url);
