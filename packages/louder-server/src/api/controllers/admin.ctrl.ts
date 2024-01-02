@@ -48,7 +48,7 @@ export const postAdminPostCtrl: RouteHandler<{}> = async (req, rep) => {
         await new AlbumCover({
           filename: album_cover.filename,
           post_id: postId,
-          url: `http://localhost:8000/media/${album_cover.filename}`,
+          url: `http://localhost:8001/media/${album_cover.filename}`,
         }).create();
       }
 
@@ -126,7 +126,7 @@ export const postAdminUploadTrack: RouteHandler<{}> = async (req, rep) => {
 
     const track = new Track({
       filename: data?.filename ?? "",
-      url: `http://localhost:8000/media/${data?.filename ?? ""}`,
+      url: `http://localhost:8001/media/${data?.filename ?? ""}`,
     });
 
     const created = await track.create();
