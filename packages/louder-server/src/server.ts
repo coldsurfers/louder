@@ -43,7 +43,12 @@ async function main() {
           ", "
         ),
     });
-    await fastify.register(fastifyMultipart);
+    await fastify.register(fastifyMultipart, {
+      limits: {
+        // 1mb * 50 -> bytes
+        fileSize: 1000000 * 50,
+      },
+    });
     await fastify.register(fastifyStatic, {
       root: path.join(__dirname, "../public/assets"),
       prefix: "/static/",
