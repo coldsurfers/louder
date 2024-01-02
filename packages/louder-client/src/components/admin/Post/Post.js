@@ -1,34 +1,35 @@
-import React from 'react';
-import styles from './Post.scss';
-import classNames from 'classnames/bind';
-import Player from 'components/admin/Player';
+import React from "react";
+import classNames from "classnames/bind";
+import Player from "components/admin/Player";
+import styles from "./Post.scss";
 
 const cx = classNames.bind(styles);
 
 const Post = ({
-              id,
-              post, 
-              album_tracks,
-              album_track_length,
-              current_track_number,
-              last_track_number,
-              increaseCurrentTrackNumber,
-              decreaseCurrentTrackNumber,
-              setToZero,
-              setToLast,
-              setPlaying,
-              isPlaying,
-              setCurrentTrackNumber,
-              onToggleSettingMenu,
-              settingVisible,
-              onUnmount}) => {
-  if(post.size === 0) {
+  id,
+  post,
+  album_tracks,
+  album_track_length,
+  current_track_number,
+  last_track_number,
+  increaseCurrentTrackNumber,
+  decreaseCurrentTrackNumber,
+  setToZero,
+  setToLast,
+  setPlaying,
+  isPlaying,
+  setCurrentTrackNumber,
+  onToggleSettingMenu,
+  settingVisible,
+  onUnmount,
+}) => {
+  if (post.size === 0) {
     return null;
   }
   return (
-    <div className={cx('Post')}>
-      <div className={cx('contents')}>
-        <Player 
+    <div className={cx("Post")}>
+      <div className={cx("contents")}>
+        <Player
           id={id}
           post={post}
           album_tracks={album_tracks}
@@ -44,10 +45,10 @@ const Post = ({
           isPlaying={isPlaying}
           setCurrentTrackNumber={setCurrentTrackNumber}
           onToggle={onToggleSettingMenu}
-          settingVisible={settingVisible}/>
+          settingVisible={settingVisible}
+        />
       </div>
     </div>
   );
-  
-}
+};
 export default Post;

@@ -1,1 +1,1 @@
-export { default } from './ChangeInfoModal';
+export { default } from "./ChangeInfoModal";

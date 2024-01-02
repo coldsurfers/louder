@@ -1,15 +1,12 @@
-import React from 'react';
-import styles from './PostList.scss';
+import React from "react";
 import classNames from 'classnames/bind';
 import PostItem from 'components/admin/PostItem/PostItem';
+import styles from './PostList.scss';
 
 const cx = classNames.bind(styles);
 
-const PostList = ({posts}) => {
-
-  const postList = posts.map(
-    (post, i) => {
-      return (
+const PostList = ({ posts }) => {
+  const postList = posts.map((post, i) => (
         <PostItem 
           key={post.get('id')}
           id={post.get('id')}
@@ -19,18 +16,13 @@ const PostList = ({posts}) => {
           album_cover={post.get('album_cover')}
           created_at={post.get('created_at')}/>
       )
-    }
-  );
+  });
 
   return (
-    <div className={cx('wrapper')}>
-      <div className={cx('list')}>
-        {
-          postList
-        }
-      </div>
+    <div className={cx("wrapper")}>
+      <div className={cx("list")}>{postList}</div>
     </div>
   );
-}
+};
 
 export default PostList;

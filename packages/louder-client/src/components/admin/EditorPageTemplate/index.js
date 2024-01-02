@@ -1,1 +1,1 @@
-export { default } from './EditorPageTemplate';
+export { default } from "./EditorPageTemplate";

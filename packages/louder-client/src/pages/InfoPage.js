@@ -1,15 +1,13 @@
-import React from 'react';
-import PageTemplate from 'components/common/PageTemplate/PageTemplate';
-import InfoFormContainer from 'containers/InfoFormContainer';
-import ModalContainer from 'containers/ModalContainer';
+import React from "react";
+import PageTemplate from "components/common/PageTemplate/PageTemplate";
+import InfoFormContainer from "containers/InfoFormContainer";
+import ModalContainer from "containers/ModalContainer";
 
-const InfoPage = () => {
-    return (
-        <PageTemplate>
-            <InfoFormContainer/>
-            <ModalContainer/>
-        </PageTemplate>
-    );
-};
+const InfoPage = () => (
+  <PageTemplate>
+    <InfoFormContainer />
+    <ModalContainer />
+  </PageTemplate>
+);
 
 export default InfoPage;

@@ -1,1 +1,1 @@
-export { default } from './EditorView';
+export { default } from "./EditorView";
