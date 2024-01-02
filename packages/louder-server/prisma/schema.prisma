@@ -62,7 +62,7 @@ model Post {
 
 model Song {
   id         String   @id @default(uuid())
-  title      String   @unique
+  title      String
   created_at DateTime @default(now())
   post       Post?    @relation(fields: [post_id], references: [id])
   post_id    String?
