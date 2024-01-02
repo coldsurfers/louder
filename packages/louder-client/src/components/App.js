@@ -21,7 +21,7 @@ const App = () => {
     return (
         <div>
             <Switch>
-                <Route exact path="/:page?" component={ListPage}/>
+                <Route exact path="/" component={ListPage}/>
                 <Route exact path="/auth/login" component={LoginPage}/>
                 <Route exact path="/auth/register" component={RegisterPage}/>
                 <Route exact path="/auth/info" component={InfoPage}/>
