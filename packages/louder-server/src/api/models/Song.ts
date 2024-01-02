@@ -25,6 +25,7 @@ export default class Song {
     const created = await prisma.song.create({
       data: {
         title: this.title,
+        post_id: this.post_id,
       },
     });
 

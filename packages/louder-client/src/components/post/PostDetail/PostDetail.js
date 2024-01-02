@@ -95,7 +95,7 @@ class PostDetail extends Component {
     this.rap.audioEl.removeEventListener('timeupdate', e => {
       this.updateProgress();
     });
-    
+
     // onUnmount();
 
   }
@@ -114,7 +114,7 @@ class PostDetail extends Component {
     await onSelect({index: id});
     setPlaying();
     this.rap.audioEl.play();
-    
+
   }
 
   render() {
@@ -125,7 +125,7 @@ class PostDetail extends Component {
     const splitted_cover_url = post.album_cover.split("/");
     const url = splitted_cover_url[splitted_cover_url.length - 1];
 
-    const songNamesArr = post.song_names.split(", ");
+    const songNamesArr = post.song_names;
     const songList = songNamesArr.map(
       (song, i) => {
         return (

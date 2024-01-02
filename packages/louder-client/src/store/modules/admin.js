@@ -195,15 +195,15 @@ export default handleActions({
         onSuccess: (state, action) => {
             const { data: post } = action.payload;
             return state.set('post', post)
-                .setIn(['album', 'album_tracks'], post.album_track_file_names.split(","))
-                .setIn(['album', 'album_track_length'], post.album_track_file_names.split(",").length)
+                .setIn(['album', 'album_tracks'], post.album_track_file_names)
+                .setIn(['album', 'album_track_length'], post.album_track_file_names.length)
                 .setIn(['album', 'current_track_number'], 0)
-                .setIn(['album', 'last_track_number'], post.album_track_file_names.split(",").length - 1)
+                .setIn(['album', 'last_track_number'], post.album_track_file_names.length - 1)
                 .setIn(['inputs', 'album_title'], post.title)
                 .setIn(['inputs', 'artist_name'], post.artist_name)
                 .setIn(['inputs', 'song_names'], post.song_names)
                 .setIn(['editor', 'album_cover'], post.album_cover)
-                .setIn(['editor', 'album_track_file_names'], post.album_track_file_names.split(","));
+                .setIn(['editor', 'album_track_file_names'], post.album_track_file_names);
         }
     }),
     [INCREASE_CURRENT_TRACK_NUMBER]: (state, action) => {

@@ -29,7 +29,7 @@ const cx = classNames.bind(styles);
 
 class Player extends Component {
 
-  
+
   state = {
     progress: 0,
     album_track_file_length: 0,
@@ -41,27 +41,27 @@ class Player extends Component {
   };
 
   StopPlaying = () => {
-    this.rap.audioEl.currentTime = 0;
-    this.rap.audioEl.pause();
+    this.rap.audioEl.current.currentTime = 0;
+    this.rap.audioEl.current.pause();
   }
 
   PausePlaying = () => {
-    this.rap.audioEl.pause();
+    this.rap.audioEl.current.pause();
   }
 
   PlayMusic = () => {
-    
+
     const { setPlaying } = this.props;
     setPlaying();
-    if (!this.rap.audioEl.paused) {
+    if (!this.rap.audioEl.current.paused) {
       this.PausePlaying();
       return;
     }
 
     // console.log()
-    this.rap.audioEl.play();
+    this.rap.audioEl.current.play();
     this.setState({
-      duration: this.rap.audioEl.duration
+      duration: this.rap.audioEl.current.duration
     });
   }
 
@@ -80,13 +80,13 @@ class Player extends Component {
       await onIncrease();
     }
 
-    this.rap.audioEl.src = await `/media/tracks/${album_tracks[this.props.current_track_number]}`;
-    await this.rap.audioEl.play();
+    this.rap.audioEl.current.src = await album_tracks[this.props.current_track_number];
+    await this.rap.audioEl.current.play();
     if (!this.props.isPlaying) {
       await setPlaying();
     }
     this.setState({
-      duration: this.rap.audioEl.duration
+      duration: this.rap.audioEl.current.duration
     });
 
   }
@@ -103,13 +103,13 @@ class Player extends Component {
       await onDecrease();
     }
 
-    this.rap.audioEl.src = await `/media/tracks/${album_tracks[this.props.current_track_number]}`;
-    await this.rap.audioEl.play();
+    this.rap.audioEl.current.src = await album_tracks[this.props.current_track_number]
+    await this.rap.audioEl.current.play();
     if (!this.props.isPlaying) {
       await setPlaying();
     }
     this.setState({
-      duration: this.rap.audioEl.duration
+      duration: this.rap.audioEl.current.duration
     });
   }
 
@@ -118,17 +118,17 @@ class Player extends Component {
     const width = target.clientWidth;
     const rect = target.getBoundingClientRect();
     const offsetX = e.clientX - rect.left;
-    const duration = this.rap.audioEl.duration;
+    const duration = this.rap.audioEl.current.duration;
     const currentTime = (duration * offsetX) / width;
     const progress = (currentTime * 100) / duration;
-    this.rap.audioEl.currentTime = currentTime;
+    this.rap.audioEl.current.currentTime = currentTime;
     // console.log(progress);
     console.log(currentTime);
 
   }
 
   updateProgress = () => {
-    const { duration, currentTime } = this.rap.audioEl;
+    const { duration, currentTime } = this.rap.audioEl.current;
     const progress = (currentTime * 100) / duration;
     console.log(parseInt(currentTime, 10));
 
@@ -140,18 +140,19 @@ class Player extends Component {
 
   componentDidMount() {
     console.log(this.rap.audioEl);
-    this.rap.audioEl.addEventListener('timeupdate', e => {
+    this.rap.audioEl.current.addEventListener('timeupdate', e => {
+      console.log('timeupdate')
       this.updateProgress();
     });
-    
+
   }
 
-  
+
 
   componentWillUnmount() {
-    
+
     const { onUnmount } = this.props;
-    this.rap.audioEl.removeEventListener('timeupdate', e => {
+    this.rap.audioEl.current.removeEventListener('timeupdate', e => {
       this.updateProgress();
     });
     onUnmount();
@@ -163,24 +164,24 @@ class Player extends Component {
     const { id } = e.target;
     await setCurrentTrackNumber({track_number: id});
 
-    this.rap.audioEl.src = await `/media/tracks/${album_tracks[this.props.current_track_number]}`;
-    await this.rap.audioEl.play();
+    this.rap.audioEl.current.src = await album_tracks[this.props.current_track_number]
+    await this.rap.audioEl.current.play();
     if (!this.props.isPlaying) {
       await setPlaying();
     }
     this.setState({
-      duration: this.rap.audioEl.duration
+      duration: this.rap.audioEl.current.duration
     });
   }
 
   canPlay = () => {
     this.setState({
-      readyState: this.rap.audioEl.readyState
+      readyState: this.rap.audioEl.current.readyState
     });
   }
 
   render() {
-    
+
     const { post } = this.props;
     const { setCurrentTrackNumber, canPlay } = this;
 
@@ -189,7 +190,7 @@ class Player extends Component {
     };
 
 
-    const song_name_arr = post.song_names.split(", ");
+    const song_name_arr = post.song_names;
     const songList = song_name_arr.map(
       (name, i) => {
         return (
@@ -218,30 +219,31 @@ class Player extends Component {
       return strFormat;
     }
 
-    
 
-    const { PlayMusic, 
-            PlayNext, 
-            PlayPrev, 
-            StopPlaying, 
-            PausePlaying, 
+
+    const { PlayMusic,
+            PlayNext,
+            PlayPrev,
+            StopPlaying,
+            PausePlaying,
             setProgress } = this;
     const { album_tracks, isPlaying, onToggle, settingVisible } = this.props;
-    
+
 
     return (
       <Fragment>
         {
-          this.state.readyState !== 4 && 
+          this.state.readyState !== 4 &&
           <div className={cx('loading')}>
           <ChasingDots size={100} color='black'/>
           </div>
         }
       <div className={cx('Player')} style={{display: this.state.readyState === 4 ? "block" : "none"}}>
+
         <ReactAudioPlayer
           onCanPlay={canPlay}
           ref={(element) => { this.rap = element; }}
-          src={`/media/tracks/${album_tracks[0]}`} />
+          src={album_tracks[0]} />
 
         <div className={cx('contents')}>
           <div className={cx('title')}>

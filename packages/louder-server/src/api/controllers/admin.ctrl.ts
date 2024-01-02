@@ -12,6 +12,48 @@ import AlbumCover from "../models/AlbumCover";
 
 const pump = util.promisify(pipeline);
 
+export const getPostListCtrl: RouteHandler<{
+  Querystring: {
+    page: string;
+  };
+}> = async (req, rep) => {
+  try {
+    const { page: pageQueryString } = req.query;
+    const page: number = +pageQueryString;
+    const perPage = 20;
+    const results = await Post.list({
+      page,
+      perPage,
+    });
+    const count = await Post.totalCount();
+    return rep.status(200).send({
+      results: results.map((result) => result.serialize()),
+      next: results.length < perPage ? null : page + 1,
+      previous: page === 1 ? null : page - 1,
+      count,
+    });
+  } catch (e) {
+    const error = e as FastifyError;
+    return rep.status(error.statusCode ?? 500).send(error);
+  }
+};
+
+export const getPostDetailCtrl: RouteHandler<{
+  Params: {
+    postId: string;
+  };
+}> = async (req, rep) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    return rep.status(200).send({
+      ...post?.serialize(),
+    });
+  } catch (e) {
+    const error = e as FastifyError;
+    return rep.status(error.statusCode ?? 500).send(error);
+  }
+};
+
 export const postAdminPostCtrl: RouteHandler<{}> = async (req, rep) => {
   try {
     const data = await req.file();
@@ -49,6 +91,12 @@ export const postAdminPostCtrl: RouteHandler<{}> = async (req, rep) => {
         const randomFilename = `${generateUUID()}-${
           album_cover.filename ?? ""
         }`;
+        await pump(
+          album_cover.file,
+          fs.createWriteStream(
+            path.resolve(__dirname, `../../../public/media/${randomFilename}`)
+          )
+        );
         await new AlbumCover({
           filename: randomFilename,
           post_id: postId,
