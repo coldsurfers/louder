@@ -14,6 +14,11 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@coldsurfers/shared-utils@^1.0.1-rc.0":
+  version "1.0.1-rc.0"
+  resolved "https://npm.pkg.github.com/download/@coldsurfers/shared-utils/1.0.1-rc.0/5337bec74087840322cedd882df302e7a55e6099#5337bec74087840322cedd882df302e7a55e6099"
+  integrity sha512-dsKFlc1RrO3g9kqL69Skv28QpMXwB59TMdb5yzLfjccx5KyOkTOWZty+IemDj+AtnXXLPJHxUvfJKKSmKPM+dg==
+
 "@eslint-community/eslint-utils@^4.2.0":
   version "4.4.0"
   resolved "https://registry.npmjs.org/@eslint-community/eslint-utils/-/eslint-utils-4.4.0.tgz"

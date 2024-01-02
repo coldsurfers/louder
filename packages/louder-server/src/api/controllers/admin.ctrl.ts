@@ -4,6 +4,7 @@ import fs from "fs";
 import util from "util";
 import { pipeline } from "node:stream";
 import path from "path";
+import { generateUUID } from "@coldsurfers/shared-utils";
 import Track from "../models/Track";
 import Post from "../models/Post";
 import Song from "../models/Song";
@@ -45,10 +46,13 @@ export const postAdminPostCtrl: RouteHandler<{}> = async (req, rep) => {
       const { id: postId } = post;
 
       if (!Array.isArray(album_cover) && album_cover?.type === "file") {
+        const randomFilename = `${generateUUID()}-${
+          album_cover.filename ?? ""
+        }`;
         await new AlbumCover({
-          filename: album_cover.filename,
+          filename: randomFilename,
           post_id: postId,
-          url: `http://localhost:8001/media/${album_cover.filename}`,
+          url: `http://0.0.0.0:8001/media/${randomFilename}`,
         }).create();
       }
 
@@ -115,18 +119,21 @@ export const postAdminPostCtrl: RouteHandler<{}> = async (req, rep) => {
 export const postAdminUploadTrack: RouteHandler<{}> = async (req, rep) => {
   try {
     const data = await req.file();
-    if (data && data.file && data.filename) {
+    const randomFilename = `${generateUUID()}-${
+      data?.filename ? data.filename : ""
+    }`;
+    if (data && data.file) {
       await pump(
         data.file,
         fs.createWriteStream(
-          path.resolve(__dirname, `../../../public/media/${data.filename}`)
+          path.resolve(__dirname, `../../../public/media/${randomFilename}`)
         )
       );
     }
 
     const track = new Track({
-      filename: data?.filename ?? "",
-      url: `http://localhost:8001/media/${data?.filename ?? ""}`,
+      filename: randomFilename,
+      url: `http://0.0.0.0:8001/media/${randomFilename}`,
     });
 
     const created = await track.create();
