@@ -79,8 +79,6 @@ export default class Post {
       },
     });
 
-    console.log(result);
-
     const list = result.map(
       (value) =>
         new Post({
