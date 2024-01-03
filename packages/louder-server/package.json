@@ -12,6 +12,8 @@
     "postinstall": "yarn prisma generate"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.484.0",
+    "@aws-sdk/s3-presigned-post": "^3.484.0",
     "@coldsurfers/shared-utils": "^1.0.1-rc.0",
     "@fastify/autoload": "^5.8.0",
     "@fastify/cors": "^8.5.0",
