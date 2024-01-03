@@ -15,7 +15,7 @@ export default async function createPresignedPost({
     region: process.env.S3_REGION,
     credentials: {
       accessKeyId: process.env.S3_ACCESS_KEY_ID ?? "",
-      secretAccessKey: process.env.FSTVLLIFE_ORIGIN_KEY ?? "",
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY ?? "",
     },
   });
 
