@@ -76,8 +76,6 @@ class PostContainer extends Component {
   handleRemovePost = async () => {
     const { AdminActions, id, album_tracks, album_cover, post, history } =
       this.props;
-    let splitted = post.album_cover.split("/");
-    splitted = splitted[splitted.length - 1];
     let header = null;
     const token = storage.get("token");
 
@@ -94,7 +92,7 @@ class PostContainer extends Component {
         { will_delete_tracks: album_tracks },
         header
       );
-      await AdminActions.filterCover({ will_delete_cover: splitted }, header);
+      await AdminActions.filterCover({ will_delete_cover: post.album_cover }, header);
       await AdminActions.removePost({ id }, header);
       history.push("/admin/posts/");
     } catch (e) {

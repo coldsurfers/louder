@@ -236,7 +236,7 @@ class Player extends Component {
         )}
         <div
           className={cx("Player")}
-          style={{ display: this.state.readyState === 4 ? "block" : "none" }}
+          // style={{ display: this.state.readyState === 4 ? "block" : "none" }}
         >
           <ReactAudioPlayer
             onCanPlay={canPlay}
