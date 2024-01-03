@@ -164,6 +164,14 @@ export default class Post {
     return totalCount;
   }
 
+  public static async delete(postId: string) {
+    await prisma.post.delete({
+      where: {
+        id: postId,
+      },
+    });
+  }
+
   public serialize(): PostSerialized {
     return {
       id: this.id ?? "",

@@ -238,6 +238,20 @@ export const postAdminPostCtrl: RouteHandler<{}> = async (req, rep) => {
   }
 };
 
+export const deletePostDetailCtrl: RouteHandler<{
+  Params: {
+    postId: string;
+  };
+}> = async (req, rep) => {
+  try {
+    await Post.delete(req.params.postId);
+    return rep.status(204).send();
+  } catch (e) {
+    const error = e as FastifyError;
+    return rep.status(error.statusCode ?? 500).send(error);
+  }
+};
+
 export const postAdminUploadTrack: RouteHandler<{}> = async (req, rep) => {
   try {
     const data = await req.file();
