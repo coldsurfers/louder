@@ -1,0 +1,8 @@
+{
+  "name": "@coldsurfers/louder",
+  "private": true,
+  "repository": "https://github.com/yungblud/louder",
+  "author": "yungblud <killi8n@gmail.com>",
+  "license": "MIT",
+  "workspaces": ["packages/*"]
+}
