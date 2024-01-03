@@ -35,9 +35,9 @@ model Track {
   filename   String   @unique
   url        String   @unique
   created_at DateTime @default(now())
-  post       Post?    @relation(fields: [post_id], references: [id])
+  post       Post?    @relation(fields: [post_id], references: [id], onDelete: Cascade)
   post_id    String?
-  song       Song?    @relation(fields: [song_id], references: [id])
+  song       Song?    @relation(fields: [song_id], references: [id], onDelete: Cascade)
   song_id    String?  @unique
 }
 
@@ -46,7 +46,7 @@ model AlbumCover {
   filename   String   @unique
   url        String   @unique
   created_at DateTime @default(now())
-  post       Post     @relation(fields: [post_id], references: [id])
+  post       Post     @relation(fields: [post_id], references: [id], onDelete: Cascade)
   post_id    String   @unique
 }
 
@@ -64,7 +64,7 @@ model Song {
   id         String   @id @default(uuid())
   title      String
   created_at DateTime @default(now())
-  post       Post?    @relation(fields: [post_id], references: [id])
+  post       Post?    @relation(fields: [post_id], references: [id], onDelete: Cascade)
   post_id    String?
   track      Track?
 }
