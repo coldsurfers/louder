@@ -54,108 +54,182 @@ export const getPostDetailCtrl: RouteHandler<{
   }
 };
 
-export const postAdminPostCtrl: RouteHandler<{}> = async (req, rep) => {
+export const patchPostDetailCtrl: RouteHandler<{
+  Params: {
+    postId: string;
+  };
+}> = async (req, rep) => {
   try {
-    const data = await req.file();
-    if (!data) {
+    const parts = await req.parts();
+    if (!parts) {
       return rep.status(400).send();
     }
-    const { fields } = data;
-    const {
-      album_cover,
-      title,
-      artist_name,
-      song_names,
-      album_track_file_names,
-    } = fields;
-    // todo: first create Post
 
-    if (
-      !Array.isArray(artist_name) &&
-      artist_name?.type === "field" &&
-      typeof artist_name.value === "string" &&
-      !Array.isArray(title) &&
-      title?.type === "field" &&
-      typeof title.value === "string"
-    ) {
-      const post = await new Post({
-        artist_name: artist_name.value,
-        title: title.value,
-      }).create();
+    const post = await Post.findById(req.params.postId);
 
-      if (!post || !post.id) return rep.status(500).send();
+    if (!post || !post.id) return rep.status(404).send();
 
-      const { id: postId } = post;
+    const prePost = {
+      artist_name: "",
+      title: "",
+    };
 
-      if (!Array.isArray(album_cover) && album_cover?.type === "file") {
-        const randomFilename = `${generateUUID()}-${
-          album_cover.filename ?? ""
-        }`;
-        await pump(
-          album_cover.file,
-          fs.createWriteStream(
-            path.resolve(__dirname, `../../../public/media/${randomFilename}`)
-          )
-        );
-        await new AlbumCover({
-          filename: randomFilename,
-          post_id: postId,
-          url: `/media/${randomFilename}`,
-        }).create();
-      }
-
-      let songIdsOnPost: string[] = [];
-
-      if (song_names) {
-        if (
-          !Array.isArray(song_names) &&
-          song_names.type === "field" &&
-          typeof song_names.value === "string"
-        ) {
-          const songs = song_names.value.split(",");
-          const songsOnPost = await Promise.all(
-            songs.map(async (song) => {
-              const created = await new Song({
-                title: song,
-                post_id: postId,
-              }).create();
-              return created;
-            })
+    let albumCoverFilename = "";
+    let songIdsOnPost: string[] = [];
+    let songNames = "";
+    let albumTrackFilenames = "";
+    // eslint-disable-next-line no-restricted-syntax
+    for await (const part of parts) {
+      if (part.type === "file") {
+        if (part.fieldname === "album_cover") {
+          albumCoverFilename = `${generateUUID()}-${part.filename ?? ""}`;
+          await pump(
+            part.file,
+            fs.createWriteStream(
+              path.resolve(
+                __dirname,
+                `../../../public/media/${albumCoverFilename}`
+              )
+            )
           );
-          songIdsOnPost = songsOnPost.map((value) => value.id!);
         }
-      }
-
-      // todo: second, update postId of track
-      if (album_track_file_names) {
-        if (
-          !Array.isArray(album_track_file_names) &&
-          album_track_file_names.type === "field" &&
-          typeof album_track_file_names.value === "string"
-        ) {
-          await Promise.all(
-            album_track_file_names.value
-              .split(",")
-              .map(async (filename, index) => {
-                const track = await Track.findByFilename(filename);
-                if (!track) return;
-                // eslint-disable-next-line no-underscore-dangle
-                const _postId = post.id;
-                if (_postId) {
-                  await track.updatePostId({ postId: _postId });
-                }
-                // eslint-disable-next-line no-underscore-dangle
-                const _songId = songIdsOnPost.at(index);
-                if (_songId) {
-                  await track.updateSongId({
-                    songId: _songId,
-                  });
-                }
-              })
-          );
+      } else {
+        if (part.fieldname === "artist_name") {
+          prePost.artist_name = part.value as string;
+        }
+        if (part.fieldname === "title") {
+          prePost.title = part.value as string;
+        }
+        if (part.fieldname === "song_names") {
+          songNames = part.value as string;
+        }
+        if (part.fieldname === "album_track_file_names") {
+          albumTrackFilenames = part.value as string;
         }
       }
     }
+
+    await post.update(prePost);
+    await post.album_cover?.update({
+      url: `/media/${albumCoverFilename}`,
+      filename: albumCoverFilename,
+    });
+
+    const songs = songNames.split(",");
+    const songsOnPost = await Promise.all(
+      post.song?.map(async (song, index) => {
+        const updated = await song.update({ title: songs[index] });
+        return updated;
+      }) ?? []
+    );
+
+    songIdsOnPost = songsOnPost.map((value) => value.id!);
+
+    await Promise.all(
+      albumTrackFilenames.split(",").map(async (filename, index) => {
+        const track = await Track.findByFilename(filename);
+        if (!track) return;
+        // eslint-disable-next-line no-underscore-dangle
+        const _songId = songIdsOnPost.at(index);
+        if (_songId) {
+          await track.updateSongId({
+            songId: _songId,
+          });
+        }
+      })
+    );
+
+    return rep.status(200).send();
+  } catch (e) {
+    const error = e as FastifyError;
+    return rep.status(error.statusCode ?? 500).send(error);
+  }
+};
+
+export const postAdminPostCtrl: RouteHandler<{}> = async (req, rep) => {
+  try {
+    const parts = await req.parts();
+
+    const prePost = {
+      title: "",
+      artist_name: "",
+    };
+    let albumCoverFilename = "";
+    let songIdsOnPost: string[] = [];
+    let albumTrackFilenames = "";
+    let songNames = "";
+
+    // eslint-disable-next-line no-restricted-syntax
+    for await (const part of parts) {
+      if (part.type === "file") {
+        if (part.fieldname === "album_cover") {
+          albumCoverFilename = `${generateUUID()}-${part.filename ?? ""}`;
+          await pump(
+            part.file,
+            fs.createWriteStream(
+              path.resolve(
+                __dirname,
+                `../../../public/media/${albumCoverFilename}`
+              )
+            )
+          );
+        }
+      } else {
+        if (part.fieldname === "artist_name") {
+          prePost.artist_name = part.value as string;
+        }
+        if (part.fieldname === "title") {
+          prePost.title = part.value as string;
+        }
+        if (part.fieldname === "song_names") {
+          songNames = part.value as string;
+        }
+        if (part.fieldname === "album_track_file_names") {
+          albumTrackFilenames = part.value as string;
+        }
+      }
+    }
+
+    const post = await new Post(prePost).create();
+    if (!post || !post.id) return rep.status(500).send();
+    const { id: postId } = post;
+
+    await new AlbumCover({
+      filename: albumCoverFilename,
+      post_id: postId,
+      url: `/media/${albumCoverFilename}`,
+    }).create();
+
+    const songs = songNames.split(",");
+    const songsOnPost = await Promise.all(
+      songs.map(async (song) => {
+        const created = await new Song({
+          title: song,
+          post_id: postId,
+        }).create();
+        return created;
+      })
+    );
+    songIdsOnPost = songsOnPost.map((value) => value.id!);
+
+    await Promise.all(
+      albumTrackFilenames.split(",").map(async (filename, index) => {
+        const track = await Track.findByFilename(filename);
+        if (!track) return;
+        // eslint-disable-next-line no-underscore-dangle
+        const _postId = post.id;
+        if (_postId) {
+          await track.updatePostId({ postId: _postId });
+        }
+        // eslint-disable-next-line no-underscore-dangle
+        const _songId = songIdsOnPost.at(index);
+        if (_songId) {
+          await track.updateSongId({
+            songId: _songId,
+          });
+        }
+      })
+    );
 
     return rep.status(201).send();
   } catch (e) {
@@ -167,6 +241,9 @@ export const postAdminPostCtrl: RouteHandler<{}> = async (req, rep) => {
 export const postAdminUploadTrack: RouteHandler<{}> = async (req, rep) => {
   try {
     const data = await req.file();
+    if (data?.type !== "file") {
+      return rep.status(400).send();
+    }
     const randomFilename = `${generateUUID()}-${
       data?.filename ? data.filename : ""
     }`;

@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// admin post
 export const post = (formData, config) =>
   axios.post(`/v1/admin/posts/`, formData, config);
 export const getPostList = ({ page }, config) =>
@@ -13,9 +14,11 @@ export const filterCover = ({ will_delete_cover }, header) =>
 export const getPostDetail = ({ id }, config) =>
   axios.get(`/v1/admin/posts/${id}`, config);
 export const updatePost = ({ id }, formData, config) =>
-  axios.patch(`/api/posts/${id}/`, formData, config);
+  axios.patch(`/v1/admin/posts/${id}/`, formData, config);
 export const removePost = ({ id }, config) =>
-  axios.delete(`/api/posts/${id}/`, config);
+  axios.delete(`/v1/admin/posts/${id}/`, config);
+
+// admin auth
 export const registerStaff = ({ username, password, email }, config) =>
   axios.post(
     `/api/auth/register/staff/`,

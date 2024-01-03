@@ -69,6 +69,11 @@ export default class Track {
   }
 
   public async updateSongId({ songId }: { songId: string }) {
+    await prisma.track.delete({
+      where: {
+        song_id: songId,
+      },
+    });
     const updated = await prisma.track.update({
       where: {
         id: this.id,

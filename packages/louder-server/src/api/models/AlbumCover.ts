@@ -47,6 +47,22 @@ export default class AlbumCover {
     });
   }
 
+  public async update({ url, filename }: { url: string; filename: string }) {
+    const updated = await prisma.albumCover.update({
+      data: {
+        url,
+        filename,
+      },
+      where: {
+        id: this.id,
+      },
+    });
+
+    return new AlbumCover({
+      ...updated,
+    });
+  }
+
   public serialize(): AlbumCoverSerialized {
     return {
       id: this.id ?? "",

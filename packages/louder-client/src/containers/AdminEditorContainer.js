@@ -133,7 +133,7 @@ class AdminEditorContainer extends Component {
       formData.append("album_track_file_names", album_track_file_names);
 
       await AdminActions.post(formData, config);
-      history.push("/admin");
+      history.push("/admin/home");
     } catch (e) {
       console.log(e);
     }

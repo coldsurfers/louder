@@ -48,6 +48,7 @@ async function main() {
         // 1mb * 50 -> bytes
         fileSize: 1000000 * 50,
       },
+      attachFieldsToBody: false,
     });
     await fastify.register(fastifyStatic, {
       root: path.join(__dirname, "../public/assets"),

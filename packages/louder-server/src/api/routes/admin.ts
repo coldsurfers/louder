@@ -4,6 +4,7 @@ import {
   postAdminUploadTrack,
   getPostListCtrl,
   getPostDetailCtrl,
+  patchPostDetailCtrl,
 } from "../controllers/admin.ctrl";
 import { JWTDecoded } from "../../types/jwt";
 import User from "../models/User";
@@ -22,9 +23,11 @@ const adminRoute: FastifyPluginCallback = (fastify, opts, done) => {
       return rep.status(403).send();
     }
   });
+
   fastify.get("/admin/posts", getPostListCtrl);
-  fastify.get("/admin/posts/:postId", getPostDetailCtrl);
   fastify.post("/admin/posts", postAdminPostCtrl);
+  fastify.get("/admin/posts/:postId", getPostDetailCtrl);
+  fastify.patch("/admin/posts/:postId", patchPostDetailCtrl);
   fastify.post("/admin/uploads", postAdminUploadTrack);
   done();
 };

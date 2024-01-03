@@ -33,4 +33,19 @@ export default class Song {
       ...created,
     });
   }
+
+  public async update({ title }: { title: string }) {
+    const updated = await prisma.song.update({
+      where: {
+        id: this.id,
+      },
+      data: {
+        title,
+      },
+    });
+
+    return new Song({
+      ...updated,
+    });
+  }
 }

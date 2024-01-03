@@ -59,6 +59,28 @@ export default class Post {
     });
   }
 
+  public async update({
+    title,
+    artist_name,
+  }: {
+    title: string;
+    artist_name: string;
+  }) {
+    const updated = await prisma.post.update({
+      where: {
+        id: this.id,
+      },
+      data: {
+        title,
+        artist_name,
+      },
+    });
+
+    return new Post({
+      ...updated,
+    });
+  }
+
   public static async list({
     page,
     perPage = 20,
