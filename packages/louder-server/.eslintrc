@@ -4,6 +4,7 @@
       "coldsurfers/react-typescript" // for react-typescript
     ],
     "rules": {
-      "camelcase": "off"
+      "camelcase": "off",
+      "import/no-unresolved": "off"
     }
 }
