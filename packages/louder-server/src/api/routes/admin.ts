@@ -6,6 +6,7 @@ import {
   getPostDetailCtrl,
   patchPostDetailCtrl,
   deletePostDetailCtrl,
+  postAdminPresigned,
 } from "../controllers/admin.ctrl";
 import { JWTDecoded } from "../../types/jwt";
 import User from "../models/User";
@@ -31,6 +32,7 @@ const adminRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.patch("/admin/posts/:postId", patchPostDetailCtrl);
   fastify.delete("/admin/posts/:postId", deletePostDetailCtrl);
   fastify.post("/admin/uploads", postAdminUploadTrack);
+  fastify.post("/admin/pre-signed", postAdminPresigned);
   done();
 };
 
