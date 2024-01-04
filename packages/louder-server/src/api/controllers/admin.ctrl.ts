@@ -9,8 +9,40 @@ import Track from "../models/Track";
 import Post from "../models/Post";
 import Song from "../models/Song";
 import AlbumCover from "../models/AlbumCover";
+import createPresignedPost from "../../lib/createPresignedPost";
+import {
+  AWS_S3_ADMIN_PRESIGNED_DIR,
+  ONE_MB_TO_BYTE,
+} from "../../lib/constants";
 
 const pump = util.promisify(pipeline);
+
+export const postAdminPresigned: RouteHandler<{
+  Body: {
+    filename: string;
+    contentType: string;
+  };
+}> = async (req, rep) => {
+  try {
+    const { filename, contentType } = req.body;
+    const result = await createPresignedPost({
+      Bucket: process.env.AWS_S3_BUCKET ?? "",
+      Key: `${AWS_S3_ADMIN_PRESIGNED_DIR}/media/${filename}`,
+      Fields: {
+        acl: "public-read",
+        "Content-Type": contentType,
+      },
+      Expires: 600, // seconds
+      Conditions: [
+        ["content-length-range", 0, ONE_MB_TO_BYTE * 3], // up to 1 MB * 3 = 3 MB
+      ],
+    });
+    return rep.status(201).send(result);
+  } catch (e) {
+    const error = e as FastifyError;
+    return rep.status(error.statusCode ?? 500).send(error);
+  }
+};
 
 export const getPostListCtrl: RouteHandler<{
   Querystring: {
