@@ -1,10 +1,10 @@
 // fastify-jwt.d.ts
-import "@fastify/jwt";
-import { JWTPayload } from "./jwt";
+import '@fastify/jwt'
+import { JWTPayload } from './jwt'
 
-declare module "@fastify/jwt" {
+declare module '@fastify/jwt' {
   interface FastifyJWT {
-    payload: JWTPayload; // payload type is used for signing and verifying
+    payload: JWTPayload // payload type is used for signing and verifying
     // user: {
     //   id: number
     //   name: string

@@ -1,53 +1,53 @@
 /* eslint-disable class-methods-use-this */
-import { prisma } from "../database/prisma";
+import { prisma } from '../database/prisma'
 
 export type UserSerialized = {
-  id: string;
-  email: string;
-  username: string;
-  created_at: string;
-  is_staff: boolean;
-};
+  id: string
+  email: string
+  username: string
+  created_at: string
+  is_staff: boolean
+}
 
 export default class User {
-  public id?: string;
+  public id?: string
 
-  public username!: string;
+  public username!: string
 
-  public email!: string;
+  public email!: string
 
-  public password?: string;
+  public password?: string
 
-  public passwordSalt?: string;
+  public passwordSalt?: string
 
-  public created_at?: Date;
+  public created_at?: Date
 
-  public is_staff?: boolean;
+  public is_staff?: boolean
 
   constructor(params: {
-    id?: string;
-    email: string;
-    username: string;
-    password?: string;
-    passwordSalt?: string;
-    created_at?: Date;
-    is_staff?: boolean;
+    id?: string
+    email: string
+    username: string
+    password?: string
+    passwordSalt?: string
+    created_at?: Date
+    is_staff?: boolean
   }) {
-    this.id = params.id;
-    this.email = params.email;
-    this.username = params.username;
-    this.password = params.password;
-    this.passwordSalt = params.passwordSalt;
-    this.created_at = params.created_at;
-    this.is_staff = params.is_staff;
+    this.id = params.id
+    this.email = params.email
+    this.username = params.username
+    this.password = params.password
+    this.passwordSalt = params.passwordSalt
+    this.created_at = params.created_at
+    this.is_staff = params.is_staff
   }
 
   public static async find({
     email,
     username,
   }: {
-    email?: string;
-    username: string;
+    email?: string
+    username: string
   }) {
     // eslint-disable-next-line no-underscore-dangle
     const _user = await prisma.user.findUnique({
@@ -55,9 +55,9 @@ export default class User {
         email,
         username,
       },
-    });
+    })
 
-    if (!_user) return null;
+    if (!_user) return null
 
     const user = new User({
       email: _user.email,
@@ -67,14 +67,14 @@ export default class User {
       password: _user.password,
       passwordSalt: _user.passwordSalt,
       is_staff: _user.is_staff,
-    });
+    })
 
-    return user;
+    return user
   }
 
   public async create() {
     if (!this.password || !this.passwordSalt) {
-      throw Error("password, password salt");
+      throw Error('password, password salt')
     }
     // eslint-disable-next-line no-underscore-dangle
     const _user = await prisma.user.create({
@@ -84,26 +84,26 @@ export default class User {
         password: this.password,
         passwordSalt: this.passwordSalt,
       },
-    });
+    })
 
-    if (!_user) return null;
+    if (!_user) return null
 
     const user = new User({
       created_at: _user.created_at,
       email: _user.email,
       id: _user.id,
       username: _user.username,
-    });
+    })
 
-    return user;
+    return user
   }
 
   public static async changeEmail({
     userId,
     email,
   }: {
-    userId: string;
-    email: string;
+    userId: string
+    email: string
   }) {
     const updated = await prisma.user.update({
       where: {
@@ -112,16 +112,16 @@ export default class User {
       data: {
         email,
       },
-    });
+    })
 
     const user = new User({
       id: updated.id,
       email: updated.email,
       username: updated.username,
       created_at: updated.created_at,
-    });
+    })
 
-    return user;
+    return user
   }
 
   public static async changePassword({
@@ -129,9 +129,9 @@ export default class User {
     password,
     passwordSalt,
   }: {
-    userId: string;
-    password: string;
-    passwordSalt: string;
+    userId: string
+    password: string
+    passwordSalt: string
   }) {
     const updated = await prisma.user.update({
       where: {
@@ -141,22 +141,22 @@ export default class User {
         password,
         passwordSalt,
       },
-    });
+    })
 
     const user = new User({
       ...updated,
-    });
+    })
 
-    return user;
+    return user
   }
 
   public serialize(): UserSerialized {
     return {
-      id: this.id ?? "",
+      id: this.id ?? '',
       email: this.email,
       username: this.username,
-      created_at: this.created_at?.toISOString() ?? "",
+      created_at: this.created_at?.toISOString() ?? '',
       is_staff: !!this.is_staff,
-    };
+    }
   }
 }

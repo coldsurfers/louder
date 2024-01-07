@@ -1,24 +1,24 @@
-import { prisma } from "../database/prisma";
+import { prisma } from '../database/prisma'
 
 export default class Song {
-  public id?: string;
+  public id?: string
 
-  public created_at?: Date;
+  public created_at?: Date
 
-  public title!: string;
+  public title!: string
 
-  public post_id?: string | null;
+  public post_id?: string | null
 
   constructor(params: {
-    id?: string;
-    created_at?: Date;
-    title: string;
-    post_id?: string | null;
+    id?: string
+    created_at?: Date
+    title: string
+    post_id?: string | null
   }) {
-    this.id = params.id;
-    this.created_at = params.created_at;
-    this.title = params.title;
-    this.post_id = params.post_id;
+    this.id = params.id
+    this.created_at = params.created_at
+    this.title = params.title
+    this.post_id = params.post_id
   }
 
   public async create() {
@@ -27,11 +27,11 @@ export default class Song {
         title: this.title,
         post_id: this.post_id,
       },
-    });
+    })
 
     return new Song({
       ...created,
-    });
+    })
   }
 
   public async update({ title }: { title: string }) {
@@ -42,10 +42,10 @@ export default class Song {
       data: {
         title,
       },
-    });
+    })
 
     return new Song({
       ...updated,
-    });
+    })
   }
 }

@@ -1,8 +1,8 @@
-import { S3Client } from "@aws-sdk/client-s3";
+import { S3Client } from '@aws-sdk/client-s3'
 import {
   PresignedPostOptions,
   createPresignedPost as s3CreatePresignedPost,
-} from "@aws-sdk/s3-presigned-post";
+} from '@aws-sdk/s3-presigned-post'
 
 export default async function createPresignedPost({
   Key,
@@ -14,10 +14,10 @@ export default async function createPresignedPost({
   const s3Client = new S3Client({
     region: process.env.AWS_S3_REGION,
     credentials: {
-      accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID ?? "",
-      secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY ?? "",
+      accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID ?? '',
+      secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY ?? '',
     },
-  });
+  })
 
   const post = await s3CreatePresignedPost(s3Client, {
     Bucket,
@@ -25,7 +25,7 @@ export default async function createPresignedPost({
     Fields,
     Expires, // seconds
     Conditions,
-  });
+  })
 
-  return post;
+  return post
 }

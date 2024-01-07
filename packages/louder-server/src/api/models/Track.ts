@@ -1,40 +1,40 @@
-import { prisma } from "../database/prisma";
+import { prisma } from '../database/prisma'
 
 export type TrackSerialized = {
-  id: string;
-  filename: string;
-  url: string;
-  created_at: string;
-  post_id?: string;
-};
+  id: string
+  filename: string
+  url: string
+  created_at: string
+  post_id?: string
+}
 
 export default class Track {
-  public id?: string;
+  public id?: string
 
-  public filename!: string;
+  public filename!: string
 
-  public url!: string;
+  public url!: string
 
-  public created_at?: Date;
+  public created_at?: Date
 
-  public post_id?: string | null;
+  public post_id?: string | null
 
-  public song_id?: string | null;
+  public song_id?: string | null
 
   constructor(params: {
-    id?: string;
-    filename: string;
-    url: string;
-    created_at?: Date;
-    post_id?: string | null;
-    song_id?: string | null;
+    id?: string
+    filename: string
+    url: string
+    created_at?: Date
+    post_id?: string | null
+    song_id?: string | null
   }) {
-    this.id = params.id;
-    this.filename = params.filename;
-    this.url = params.url;
-    this.created_at = params.created_at;
-    this.post_id = params.post_id;
-    this.song_id = params.song_id;
+    this.id = params.id
+    this.filename = params.filename
+    this.url = params.url
+    this.created_at = params.created_at
+    this.post_id = params.post_id
+    this.song_id = params.song_id
   }
 
   public async create() {
@@ -45,12 +45,12 @@ export default class Track {
         post_id: this.post_id,
         song_id: this.song_id,
       },
-    });
+    })
 
     return new Track({
       ...created,
       post_id: this.post_id,
-    });
+    })
   }
 
   public async updatePostId({ postId }: { postId: string }) {
@@ -61,11 +61,11 @@ export default class Track {
       data: {
         post_id: postId,
       },
-    });
+    })
 
     return new Track({
       ...updated,
-    });
+    })
   }
 
   public async updateSongId({ songId }: { songId: string }) {
@@ -73,7 +73,7 @@ export default class Track {
       where: {
         song_id: songId,
       },
-    });
+    })
     const updated = await prisma.track.update({
       where: {
         id: this.id,
@@ -81,11 +81,11 @@ export default class Track {
       data: {
         song_id: songId,
       },
-    });
+    })
 
     return new Track({
       ...updated,
-    });
+    })
   }
 
   public static async findByFilename(filename: string) {
@@ -93,22 +93,22 @@ export default class Track {
       where: {
         filename,
       },
-    });
+    })
 
-    if (!found) return null;
+    if (!found) return null
 
     return new Track({
       ...found,
-    });
+    })
   }
 
   public serialize(): TrackSerialized {
     return {
-      id: this.id ?? "",
+      id: this.id ?? '',
       filename: this.filename,
       url: this.url,
-      created_at: this.created_at ? this.created_at.toISOString() : "",
+      created_at: this.created_at ? this.created_at.toISOString() : '',
       post_id: this.post_id ?? undefined,
-    };
+    }
   }
 }
