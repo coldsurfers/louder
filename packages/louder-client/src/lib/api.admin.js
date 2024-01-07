@@ -17,6 +17,7 @@ export const updatePost = ({ id }, formData, config) =>
   axios.patch(`/v1/admin/posts/${id}/`, formData, config);
 export const removePost = ({ id }, config) =>
   axios.delete(`/v1/admin/posts/${id}/`, config);
+export const getPresigngedUpload = ({filename, contentType}, config) => axios.post('/v1/admin/pre-signed', {filename, contentType}, config)
 
 // admin auth
 export const registerStaff = ({ username, password, email }, config) =>

@@ -51,6 +51,7 @@
     ]
   },
   "dependencies": {
+    "@coldsurfers/shared-utils": "^1.1.0",
     "autoprefixer": "7.1.6",
     "axios": "^0.18.0",
     "babel-core": "6.26.0",

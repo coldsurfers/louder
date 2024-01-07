@@ -640,6 +640,11 @@
   resolved "https://npm.pkg.github.com/download/@coldsurfers/shared-utils/1.0.1-rc.0/5337bec74087840322cedd882df302e7a55e6099#5337bec74087840322cedd882df302e7a55e6099"
   integrity sha512-dsKFlc1RrO3g9kqL69Skv28QpMXwB59TMdb5yzLfjccx5KyOkTOWZty+IemDj+AtnXXLPJHxUvfJKKSmKPM+dg==
 
+"@coldsurfers/shared-utils@^1.1.0":
+  version "1.1.0"
+  resolved "https://npm.pkg.github.com/download/@coldsurfers/shared-utils/1.1.0/8d89bbf1aa546ae56a5c777ff2c0152c77fd3ba6#8d89bbf1aa546ae56a5c777ff2c0152c77fd3ba6"
+  integrity sha512-GgJqHUc/ZkOYl5y+4xHA6UfUDBZ5nm5G7qAnD0cQGuNO+xohsUg3WIFTFV8wvwCzPcX7UN5NZhVcqT5W1NVdmA==
+
 "@eslint-community/eslint-utils@^4.2.0":
   version "4.4.0"
   resolved "https://registry.npmjs.org/@eslint-community/eslint-utils/-/eslint-utils-4.4.0.tgz"

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import classNames from "classnames/bind";
 import storage from "lib/storage";
 import styles from "./EditorView.scss";
+import { pickFile } from "@coldsurfers/shared-utils";
+import { getPresigngedUpload } from '../../../lib/api.admin'
 
 const cx = classNames.bind(styles);
 
@@ -161,6 +163,26 @@ class EditorView extends Component {
           </div>
           <div className={cx("line")}>
             <div className={cx("label")}>커버 사진</div>
+            <button onClick={async () => {
+              pickFile(async (e) => {
+                const { target } = e
+                if (!target) return
+                const files = target.files
+                const targetFile = files[0]
+                if (!targetFile) return
+                const filename = `${new Date().toISOString()}-${targetFile.name}`
+                const token = storage.get("token");
+                const presignedData = await getPresigngedUpload({
+                  filename: filename,
+                  contentType: 'image/*',
+                }, {
+                  headers: {
+                    "content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  }
+                })
+              })
+            }}>업로드</button>
             <div className={cx("input-wrapper")}>
               <input
                 type="file"
